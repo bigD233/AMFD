@@ -1,14 +1,13 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from mmdet.registry import MODELS
 from mmdet.utils import ConfigType, OptConfigType, OptMultiConfig
-from .multispec_three_stage_detector import MultiSpecDistillDetector
-# from .two_stage_fgd import TwoStageFGDDetector
-from .two_stage_distill_thermal_first_rpn import TwoStageFGDThermalRPNFstDetector
-from .two_stage_distill_thermal_first import TwoStageFGDThermalFstDetector
+# from .two_stage_AMFD import TwoStageAMFDDetector
+
+from .two_stage_distill_thermal_first import TwoStageAMFDThermalFstDetector
 
 
 @MODELS.register_module()
-class MultiSpecFGDCascadeRCNN(TwoStageFGDThermalFstDetector):
+class MultiSpecAMFDCascadeRCNN(TwoStageAMFDThermalFstDetector):
     """Implementation of `Faster R-CNN <https://arxiv.org/abs/1506.01497>`_"""
 
     def __init__(self,
@@ -37,7 +36,7 @@ class MultiSpecFGDCascadeRCNN(TwoStageFGDThermalFstDetector):
             data_preprocessor=data_preprocessor)
 
 @MODELS.register_module()
-class MultiSpecFGDFasterRCNN(TwoStageFGDThermalFstDetector):
+class MultiSpecAMFDFasterRCNN(TwoStageAMFDThermalFstDetector):
     """Implementation of `Faster R-CNN <https://arxiv.org/abs/1506.01497>`_"""
 
     def __init__(self,

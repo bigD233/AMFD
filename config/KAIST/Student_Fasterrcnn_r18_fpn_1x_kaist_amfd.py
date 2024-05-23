@@ -5,26 +5,25 @@ _base_ = [
 ]
 __code_version__='single_faster_rcnn'
 plugin=True
-plugin_dir='./projects/Distillation/distillation/'
+plugin_dir='./projects/AMFD/amfd/'
 
 
 temp=1
-# alpha_fgd=0.00005
-beta_fgd=0
-# beta_fgd=0.000025
-# gamma_fgd=0.00005
-alpha_fgd=0
-gamma_fgd=0
-lambda_fgd=0.0000005
-# lambda_fgd=0
+alpha_mea=0.00005
+gamma_mea=0.00005
+# alpha_mea=0
+# gamma_mea=0
+lambda_mea=0.0000005
+# lambda_mea=0
 
 custom_imports = dict(
-    imports=['projects.Distillation.distillation'], allow_failed_imports=False)
+    imports=['projects.AMFD.amfd'], allow_failed_imports=False)
 
-work_dir='/home/featurize/work/mmdetection/work_dirs_retinanet/KAIST_' + __code_version__
+your_dir_pth = "/home/featurize/work/mmdetection/work_dirs_retinanet/KAIST_"
+work_dir=your_dir_pth + __code_version__
 # model settings
 model = dict(
-    type='MultiSpecFGDIrRgbFasterRCNN',
+    type='MultiSpecAMFDIrRgbFasterRCNN',
     data_preprocessor=dict(
         type='BGR3TDataPreprocessor',
         mean=[123.675, 116.28, 103.53, 135.438, 135.438, 135.438],
@@ -42,7 +41,7 @@ model = dict(
         norm_eval=True,
         style='pytorch',
         init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet18'),
-        weight_path='/home/featurize/work/mmdetection/ckpts/resnet18-5c106cde.pth',
+        weight_path='D:/Senior/lab/mmdetection/ckpts/resnet18-5c106cde.pth',
         ),
     neck=dict(
         type='FPN',
@@ -50,102 +49,94 @@ model = dict(
         out_channels=256,
         num_outs=5,
         ),
-    # teacher_cfg = '/home/featurize/work/mmdetection/projects/BAANet/configs/NEW_BAANet_r50_fpn_1x_kaist_thermal_first.py',
-    # teacher_pretrained = '/home/featurize/work/mmdetection/projects/BAANet/checkpoints/best_Glare_normal_all_iter_2500.pth',
+    teacher_cfg = 'D:/Senior/lab/mmdetection/projects/AMFD/config/KAIST/Teacher_Fasterrcnn_r50_fpn_1x_kaist_thermal_first.py',
+    teacher_pretrained = 'D:/Senior/lab/mmdetection/projects/BAANet/checkpoints/best_Glare_normal_all_iter_2500.pth',
     distill_cfg = [ 
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_3',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_3',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_2',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_2',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_1',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_1',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_0',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_0',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_3',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_3',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_2',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_2',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_1',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_1',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_0',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_0',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
@@ -271,7 +262,7 @@ test_pipeline = [
                    'scale_factor'))
 ]
 train_dataloader = dict(
-    batch_size=4,
+    batch_size=1,
     num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -279,7 +270,7 @@ train_dataloader = dict(
     dataset=dict(
         type='KAISTDataset',
         ann_file=
-        '/home/featurize/data/KAIST/kaist_test_anno/anno/train_anno/KAIST_train_RGB_annotation.json',
+        'D:/Senior/lab/KAIST/kaist_test_anno/anno/train_anno/KAIST_train_RGB_annotation.json',
         pipeline=[
             dict(type='LoadBGR3TFromKAIST', backend_args=None),
             dict(type='LoadAnnotations', with_bbox=True),
@@ -309,10 +300,10 @@ val_dataloader = dict(
         type='KAISTDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/KAIST/kaist_test_anno/kaist_test/kaist_test_lwir'
+            'D:/Senior/lab/KAIST/kaist_test_anno/kaist_test/kaist_test_lwir'
         ),
         ann_file=
-        '/home/featurize/data/KAIST/KAIST_annotation_with_complex_light.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         test_mode=True,
         pipeline=[
             dict(type='LoadBGR3TFromKAIST', backend_args=None),
@@ -330,7 +321,7 @@ val_evaluator = [
     dict(
         type='GlareKAISTMissrateMetric',
         ann_file=
-        '/home/featurize/data/KAIST/KAIST_annotation_with_complex_light.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         metric='bbox',
         format_only=False,
         backend_args=None,
@@ -340,7 +331,7 @@ test_evaluator = [
     dict(
         type='GlareKAISTMissrateMetric',
         ann_file=
-        '/home/featurize/data/KAIST/KAIST_annotation_with_complex_light.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         metric='bbox',
         format_only=False,
         backend_args=None,

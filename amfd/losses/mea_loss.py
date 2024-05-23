@@ -6,36 +6,33 @@ import torch
 from mmdet.registry import MODELS
 
 @MODELS.register_module()
-class FeatureLoss(nn.Module):
+class MEALoss(nn.Module):
 
-    """PyTorch version of `Focal and Global Knowledge Distillation for Detectors`
+    """PyTorch version of `modal extraction alignment module`
    
     Args:
         student_channels(int): Number of channels in the student's feature map.
         teacher_channels(int): Number of channels in the teacher's feature map. 
         temp (float, optional): Temperature coefficient. Defaults to 0.5.
         name (str): the loss name of the layer
-        alpha_fgd (float, optional): Weight of fg_loss. Defaults to 0.001
-        beta_fgd (float, optional): Weight of bg_loss. Defaults to 0.0005
-        gamma_fgd (float, optional): Weight of mask_loss. Defaults to 0.001
-        lambda_fgd (float, optional): Weight of relation_loss. Defaults to 0.000005
+        alpha_mea (float, optional): Weight of fg_loss. Defaults to 0.001
+        gamma_mea (float, optional): Weight of mask_loss. Defaults to 0.001
+        lambda_mea (float, optional): Weight of relation_loss. Defaults to 0.000005
     """
     def __init__(self,
                  student_channels,
                  teacher_channels,
                  name,
                  temp=0.5,
-                 alpha_fgd=0.001,
-                 beta_fgd=0.0005,
-                 gamma_fgd=0.001,
-                 lambda_fgd=0.000005,
+                 alpha_mea=0.001,
+                 gamma_mea=0.001,
+                 lambda_mea=0.000005,
                  ):
-        super(FeatureLoss, self).__init__()
+        super(MEALoss, self).__init__()
         self.temp = temp
-        self.alpha_fgd = alpha_fgd
-        self.beta_fgd = beta_fgd
-        self.gamma_fgd = gamma_fgd
-        self.lambda_fgd = lambda_fgd
+        self.alpha_mea = alpha_mea
+        self.gamma_mea = gamma_mea
+        self.lambda_mea = lambda_mea
 
         if student_channels != teacher_channels:
             self.align = nn.Conv2d(student_channels, teacher_channels, kernel_size=1, stride=1, padding=0)
@@ -82,7 +79,6 @@ class FeatureLoss(nn.Module):
         S_attention_s, C_attention_s = self.get_attention(preds_S, self.temp)
 
         Mask_fg = torch.zeros_like(S_attention_t)
-        Mask_bg = torch.ones_like(S_attention_t)
         wmin,wmax,hmin,hmax = [],[],[],[]
         for i in range(N):
             ori_bboxes = batch_data_samples[i].gt_instances.bboxes
@@ -105,18 +101,13 @@ class FeatureLoss(nn.Module):
                 Mask_fg[i][hmin[i][j]:hmax[i][j]+1, wmin[i][j]:wmax[i][j]+1] = \
                         torch.maximum(Mask_fg[i][hmin[i][j]:hmax[i][j]+1, wmin[i][j]:wmax[i][j]+1], area[0][j])
 
-            Mask_bg[i] = torch.where(Mask_fg[i]>0, 0, 1)
-            if torch.sum(Mask_bg[i]):
-                Mask_bg[i] /= torch.sum(Mask_bg[i])
 
-        fg_loss, bg_loss = self.get_fea_loss(preds_S, preds_T, Mask_fg, Mask_bg, 
-                           C_attention_s, C_attention_t, S_attention_s, S_attention_t)
+        fg_loss = self.get_fea_loss(preds_S, preds_T, Mask_fg,C_attention_t,S_attention_t)
         mask_loss = self.get_mask_loss(C_attention_s, C_attention_t, S_attention_s, S_attention_t)
         rela_loss = self.get_rela_loss(preds_S, preds_T)
 
 
-        loss = self.alpha_fgd * fg_loss + self.beta_fgd * bg_loss \
-               + self.gamma_fgd * mask_loss + self.lambda_fgd * rela_loss
+        loss = self.alpha_mea * fg_loss + self.gamma_mea * mask_loss + self.lambda_mea * rela_loss
             
         return loss
 
@@ -137,12 +128,10 @@ class FeatureLoss(nn.Module):
         return S_attention, C_attention
 
 
-    def get_fea_loss(self, preds_S, preds_T, Mask_fg, Mask_bg, C_s, C_t, S_s, S_t):
+    def get_fea_loss(self, preds_S, preds_T, Mask_fg, C_t,S_t):
         loss_mse = nn.MSELoss(reduction='sum')
         
         Mask_fg = Mask_fg.unsqueeze(dim=1)
-        Mask_bg = Mask_bg.unsqueeze(dim=1)
-
         C_t = C_t.unsqueeze(dim=-1)
         C_t = C_t.unsqueeze(dim=-1)
 
@@ -151,17 +140,14 @@ class FeatureLoss(nn.Module):
         fea_t= torch.mul(preds_T, torch.sqrt(S_t + 1e-10))
         fea_t = torch.mul(fea_t, torch.sqrt(C_t + 1e-10))
         fg_fea_t = torch.mul(fea_t, torch.sqrt(Mask_fg + 1e-10))
-        bg_fea_t = torch.mul(fea_t, torch.sqrt(Mask_bg + 1e-10))
 
         fea_s = torch.mul(preds_S, torch.sqrt(S_t + 1e-10))
         fea_s = torch.mul(fea_s, torch.sqrt(C_t + 1e-10))
         fg_fea_s = torch.mul(fea_s, torch.sqrt(Mask_fg + 1e-10))
-        bg_fea_s = torch.mul(fea_s, torch.sqrt(Mask_bg + 1e-10))
 
         fg_loss = loss_mse(fg_fea_s, fg_fea_t)/len(Mask_fg)
-        bg_loss = loss_mse(bg_fea_s, bg_fea_t)/len(Mask_bg)
 
-        return fg_loss, bg_loss
+        return fg_loss
 
 
     def get_mask_loss(self, C_s, C_t, S_s, S_t):

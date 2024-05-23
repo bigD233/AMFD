@@ -9,14 +9,12 @@ plugin_dir='./projects/Distillation/distillation/'
 
 
 temp=1
-alpha_fgd=0.00005
-beta_fgd=0
-# beta_fgd=0.000025
-gamma_fgd=0.00005
-# alpha_fgd=0
-# gamma_fgd=0
-lambda_fgd=0.0000010
-# lambda_fgd=0
+alpha_mea=0.00005
+gamma_mea=0.00005
+# alpha_mea=0
+# gamma_mea=0
+lambda_mea=0.0000010
+# lambda_mea=0
 
 custom_imports = dict(
     imports=['projects.Distillation.distillation'], allow_failed_imports=False)
@@ -53,99 +51,91 @@ model = dict(
     # teacher_cfg = '/home/featurize/work/mmdetection/projects/BAANet/configs/NEW_BAANet_r50_fpn_1x_smct_thermal_first.py',
     # teacher_pretrained = '/home/featurize/work/mmdetection/work_dirs_smct/SMCT_double_faster_rcnn_thermal_rpn_newanno/best_coco_bbox_mAP_iter_20000.pth',
     distill_cfg = [ 
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_3',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_3',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_2',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_2',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_1',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_1',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_fpn_0',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_fpn_0',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_3',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_3',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_2',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_2',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd,
-                                       lambda_fgd=lambda_fgd,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea,
+                                       lambda_mea=lambda_mea,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_1',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_1',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),
-                    dict(methods=[dict(type='FeatureLoss',
-                                       name='loss_fgd_ir_fpn_0',
+                    dict(methods=[dict(type='MEALoss',
+                                       name='loss_mea_ir_fpn_0',
                                        student_channels = 256,
                                        teacher_channels = 256,
                                        temp = temp,
-                                       alpha_fgd=alpha_fgd ,
-                                       beta_fgd=beta_fgd ,
-                                       gamma_fgd=gamma_fgd ,
-                                       lambda_fgd=lambda_fgd ,
+                                       alpha_mea=alpha_mea ,
+                                       gamma_mea=gamma_mea ,
+                                       lambda_mea=lambda_mea ,
                                        )
                                 ]
                         ),

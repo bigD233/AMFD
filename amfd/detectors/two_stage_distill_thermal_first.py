@@ -19,7 +19,7 @@ from mmengine.config import Config
 
 
 @MODELS.register_module()
-class TwoStageFGDThermalFstDetector(BaseDetector):
+class TwoStageAMFDThermalFstDetector(BaseDetector):
     """Base class for two-stage detectors.
 
     Two-stage detectors typically consisting of a region proposal network and a

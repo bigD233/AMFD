@@ -19,7 +19,7 @@ from mmengine.config import Config
 
 
 @MODELS.register_module()
-class TwoStageFGDThermalFstIrRgbDetector(BaseDetector):
+class TwoStageAMFDThermalFstIrRgbDetector(BaseDetector):
     """Base class for two-stage detectors.
 
     Two-stage detectors typically consisting of a region proposal network and a
@@ -124,6 +124,11 @@ class TwoStageFGDThermalFstIrRgbDetector(BaseDetector):
     def _load_distilled_weights(self,teacher_cfg,teacher_pretrained,device: str = 'cuda:0'):
         config = Config.fromfile(teacher_cfg)
 
+        if "init_cfg" in config.model.backbone.keys():
+            config.model.backbone.pop("init_cfg")
+        if "init_cfg" not in config.model.backbone.keys():
+            config.model.neck.update({"init_cfg": None})
+            
         self.teacher_backbone = MODELS.build(config.model.backbone)
         self.teacher_backbone_ir = MODELS.build(config.model.backbone)
         self.teacher_neck = MODELS.build(config.model.neck)

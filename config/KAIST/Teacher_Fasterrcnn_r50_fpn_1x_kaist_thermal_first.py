@@ -1,11 +1,11 @@
 plugin = True
-plugin_dir = 'projects/BAANet/baanet/'
+plugin_dir = 'projects/AMFD/amfd/'
 
 __code_version__='double_faster_rcnn_thermal_rpn_new_anno'
 work_dir = '/home/featurize/work/mmdetection/work_dirs_czz/KAIST_' + __code_version__
 
 custom_imports = dict(
-    imports=['projects.BAANet.baanet'], allow_failed_imports=False)
+    imports=['projects.AMFD.amfd'], allow_failed_imports=False)
 
 model = dict(
     type='ThermalFirstFasterRCNN',

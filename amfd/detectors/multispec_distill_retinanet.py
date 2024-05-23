@@ -35,7 +35,7 @@ class MultiSpecRetinaNet(SingleStageDistillDetector):
 
 
 @MODELS.register_module()
-class MultiSpecDistillAllRetinaNet(SingleStageDistillAllDetector):
+class MultiSpecAMFDRetinaNet(SingleStageDistillAllDetector):
     """Implementation of `RetinaNet <https://arxiv.org/abs/1708.02002>`_"""
 
     def __init__(self,

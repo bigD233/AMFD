@@ -107,18 +107,7 @@ train_dataloader = dict(
         pipeline=[
             dict(type='LoadBGR3TFromSMCT', backend_args=None),
             dict(type='LoadAnnotations', with_bbox=True),
-            # dict(
-            #     type='RandomMask',
-            #     prob=0.5,
-            #     mask_type='black',
-            #     mask_modality='RGB'),
             dict(type='Resize', scale=(1333, 800), keep_ratio=True),
-            # dict(
-            #     type='RandomChoiceResize',
-            #     scales=[(1333, 480), (1333, 512), (1333, 544), (1333, 576),
-            #             (1333, 608), (1333, 640), (1333, 672), (1333, 704),
-            #             (1333, 736), (1333, 768), (1333, 800)],
-            #     keep_ratio=True),
             dict(type='RandomFlip', prob=0.5),
             dict(
                 type='PackDetInputs',

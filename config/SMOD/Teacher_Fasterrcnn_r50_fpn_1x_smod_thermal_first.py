@@ -1,7 +1,7 @@
 plugin = True
 plugin_dir = 'projects/BAANet/baanet/'
 
-__code_version__='double_faster_rcnn_thermal_rpn_newanno'
+__code_version__='double_faster_rcnn_thermal_rpn'
 work_dir = '/home/featurize/work/mmdetection/work_dirs_smct/SMCT_' + __code_version__
 
 custom_imports = dict(

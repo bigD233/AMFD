@@ -10,7 +10,7 @@ from mmdet.registry import MODELS
 from mmdet.structures import SampleList
 from mmdet.utils import ConfigType, OptConfigType, OptMultiConfig
 from mmdet.models.detectors.base import BaseDetector
-from projects.BAANet.baanet.modules.baa_gate import DWConv
+from projects.AMFD.amfd.modules.baa_gate import DWConv
 from mmdet.models.layers import multiclass_nms
 from mmcv.ops import batched_nms
 from mmdet.structures.bbox import (cat_boxes, empty_box_as, get_box_tensor,
