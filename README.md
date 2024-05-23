@@ -1,7 +1,7 @@
 # AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection
 [Arxiv](https://export.arxiv.org/abs/2405.12944) | [Kaggle](https://www.kaggle.com/datasets/zizhaochen6/sjtu-multispectral-object-detection-smod-dataset) |
 
-![本地路径](.\\img\\overall.png "overall architecture")
+<img src=".\\img\\overall.png" width=95% title="origin input"/>
 
 <center class="half">
 <img src=".\\img\\origin_rgb.png" width=22.5% title="origin input"/>
