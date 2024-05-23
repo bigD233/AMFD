@@ -3,9 +3,9 @@
 
 <img src=".\\img\\overall.png" width=95% title="origin input"/>
 
-<center class="half">
-<img src=".\\img\\origin_rgb.png" width=20.5% title="origin input"/><img src=".\\img\\teacher_fused.png" width=23% title="teacher"/><img src=".\\img\\distill_fused.png" width=23% title="student distill fusion feature"/><img src=".\\img\\distill_multi.png" width=23% title="student distill by AMFD"/>
-</center>
+<div align="left">
+<img src=".\\img\\origin_rgb.png" width=23% title="origin input"/><img src=".\\img\\teacher_fused.png" width=25% title="teacher"/><img src=".\\img\\distill_fused.png" width=25% title="student distill fusion feature"/><img src=".\\img\\distill_multi.png" width=25% title="student distill by AMFD"/>
+</div>
 
 This is the official repository for our paper "AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection" ([arxiv paper link](https://export.arxiv.org/abs/2405.12944)).
 
