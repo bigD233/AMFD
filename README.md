@@ -42,11 +42,19 @@ If you find our AMFD useful, please cite our paper:
 	```
 
 ## Datasets and Models
-
+All Datasets and Models we provided are upload in [google cloud](https://drive.google.com/drive/folders/1iAjAVifSSuizjEDFao8Ba3heZFsBNoae?usp=sharing).
 ### Datasets
-- KAIST: KAIST dataset has been updated by several previous works. We upload this dataset and improved annotations for your convenience in using our code. [cloud link]()
-- LLVIP: The origin data you can download in its from its official [repository](https://github.com/bupt-ai-cz/LLVIP). The coco-format annotation you can download from [cloud link]().
+- KAIST: KAIST dataset has been updated by several previous works. We upload this dataset and improved annotations for your convenience in using our code. [cloud link](https://drive.google.com/drive/folders/1lJLGV91CH43PRYx8KaVy5OngryTwo3ee?usp=sharing)
+- LLVIP: The origin data you can download in its from its official [repository](https://github.com/bupt-ai-cz/LLVIP). The coco-format annotation you can download from [cloud link](https://drive.google.com/drive/folders/1lJLGV91CH43PRYx8KaVy5OngryTwo3ee?usp=sharing).
 - SMOD: A new multispectral object detection dataset propsed by us. You can download from [Kaggle](https://www.kaggle.com/datasets/zizhaochen6/sjtu-multispectral-object-detection-smod-dataset)
+
+## Models 
+We provide the teacher checkpoint "Teacher_Fasterrcnn_7_66.pth" and the studnet checkpoint "single_fasterrcnn_7_23.pth" trained on KAIST dataset. [cloud link](https://drive.google.com/drive/folders/1UEop1kPMKfRQHiYIW_d6hPdHMHhNBWLn?usp=sharing)
+```
+Teacher_Fasterrcnn_7_66.pth ---> Trained by Teacher_Fasterrcnn_r50_fpn_1x_kaist_thermal_first.py
+single_fasterrcnn_7_23.pth  ---> Trained by Student_Fasterrcnn_r18_fpn_1x_kaist_amfd.py
+```
+
 
 ## Inferecne
 We take the example of inference on the KAIST dataset:
