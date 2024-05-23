@@ -19,10 +19,10 @@ lambda_mea=0.0000010
 custom_imports = dict(
     imports=['projects.Distillation.distillation'], allow_failed_imports=False)
 
-work_dir='/home/featurize/work/mmdetection/work_dirs_smct/SMCT_' + __code_version__
+work_dir='/home/featurize/work/mmdetection/work_dirs_smod/SMOD_' + __code_version__
 # model settings
 model = dict(
-    type='MultiSpecFGDIrRgbFasterRCNN',
+    type='MultiSpecAMFDIrRgbFasterRCNN',
     data_preprocessor=dict(
         type='BGR3TDataPreprocessor',
         mean=[123.675, 116.28, 103.53, 135.438, 135.438, 135.438],
@@ -48,8 +48,8 @@ model = dict(
         out_channels=256,
         num_outs=5,
         ),
-    # teacher_cfg = '/home/featurize/work/mmdetection/projects/BAANet/configs/NEW_BAANet_r50_fpn_1x_smct_thermal_first.py',
-    # teacher_pretrained = '/home/featurize/work/mmdetection/work_dirs_smct/SMCT_double_faster_rcnn_thermal_rpn_newanno/best_coco_bbox_mAP_iter_20000.pth',
+    # teacher_cfg = '/home/featurize/work/mmdetection/projects/BAANet/configs/NEW_BAANet_r50_fpn_1x_smod_thermal_first.py',
+    # teacher_pretrained = '/home/featurize/work/mmdetection/work_dirs_smod/SMOD_double_faster_rcnn_thermal_rpn_newanno/best_coco_bbox_mAP_iter_20000.pth',
     distill_cfg = [ 
                     dict(methods=[dict(type='MEALoss',
                                        name='loss_mea_fpn_3',
@@ -240,7 +240,7 @@ image_size = [(1333, 480), (1333, 512), (1333, 544), (1333, 576), (1333, 608),
               (1333, 640), (1333, 672), (1333, 704), (1333, 736), (1333, 768),
               (1333, 800)]
 train_pipeline = [
-    dict(type='LoadBGR3TFromSMCT', backend_args=None),
+    dict(type='LoadBGR3TFromSMOD', backend_args=None),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='RandomChoiceResize',
@@ -252,7 +252,7 @@ train_pipeline = [
     dict(type='PackDetInputs')
 ]
 test_pipeline = [
-    dict(type='LoadBGR3TFromSMCT', backend_args=None),
+    dict(type='LoadBGR3TFromSMOD', backend_args=None),
     dict(type='Resize', scale=(1333, 800), keep_ratio=True),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
@@ -267,15 +267,15 @@ train_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=True),
     batch_sampler=dict(type='AspectRatioBatchSampler'),
     dataset=dict(
-        type='SMCTDataset',
+        type='SMODDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/SMCT'
+            '/home/featurize/data/SMOD'
         ),
         ann_file=
-        '/home/featurize/data/SMCT/new_train_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_train_annotations_rgb.json',
         pipeline=[
-            dict(type='LoadBGR3TFromSMCT', backend_args=None),
+            dict(type='LoadBGR3TFromSMOD', backend_args=None),
             dict(type='LoadAnnotations', with_bbox=True),
             # dict(
             #     type='RandomMask',
@@ -300,16 +300,16 @@ val_dataloader = dict(
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
-        type='SMCTDataset',
+        type='SMODDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/SMCT'
+            '/home/featurize/data/SMOD'
         ),
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         test_mode=True,
         pipeline=[
-            dict(type='LoadBGR3TFromSMCT', backend_args=None),
+            dict(type='LoadBGR3TFromSMOD', backend_args=None),
             dict(type='Resize', scale=(1333, 800), keep_ratio=True),
             dict(type='LoadAnnotations', with_bbox=True),
             dict(
@@ -324,7 +324,7 @@ val_evaluator = [
     dict(
         type='CocoMetric',
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         metric='bbox',
         format_only=False,
         backend_args=None,
@@ -334,7 +334,7 @@ test_evaluator = [
     dict(
         type='CocoMetric',
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         metric='bbox',
         format_only=False,
         backend_args=None,

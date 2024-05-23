@@ -3,26 +3,24 @@ _base_ = [
     # '../_base_/schedules/schedule_1x.py', 
     # '../_base_/default_runtime.py'
 ]
-__code_version__='single_faster_rcnn_'
+__code_version__='single_faster_rcnn'
 plugin=True
-plugin_dir='./projects/Distillation/distillation/'
+plugin_dir='./projects/AMFD/amfd/'
 
 
 temp=1
 alpha_mea=0.00005
-
-
 gamma_mea=0.00005
 # alpha_mea=0
-
 # gamma_mea=0
 lambda_mea=0.0000005
 # lambda_mea=0
 
 custom_imports = dict(
-    imports=['projects.Distillation.distillation'], allow_failed_imports=False)
+    imports=['projects.AMFD.amfd'], allow_failed_imports=False)
 
-work_dir='/home/featurize/work/mmdetection/work_dirs_llvip/LLVIP_' + __code_version__
+your_dir_pth = "/home/featurize/work/mmdetection/work_dirs_retinanet/KAIST_"
+work_dir=your_dir_pth + __code_version__
 # model settings
 model = dict(
     type='MultiSpecAMFDIrRgbFasterRCNN',
@@ -43,7 +41,7 @@ model = dict(
         norm_eval=True,
         style='pytorch',
         init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet18'),
-        weight_path='/home/featurize/work/mmdetection/ckpts/resnet18-5c106cde.pth',
+        weight_path='D:/Senior/lab/mmdetection/ckpts/resnet18-5c106cde.pth',
         ),
     neck=dict(
         type='FPN',
@@ -51,8 +49,8 @@ model = dict(
         out_channels=256,
         num_outs=5,
         ),
-    teacher_cfg = '/home/featurize/work/mmdetection/projects/BAANet/configs/NEW_BAANet_r50_fpn_1x_llvip_thermal_first.py',
-    teacher_pretrained = '/home/featurize/work/mmdetection/work_dirs_llvip/LLVIP_double_faster_rcnn_thermal_rpn_v1/best_coco_bbox_mAP_iter_12600.pth',
+    # teacher_cfg = 'D:/Senior/lab/mmdetection/projects/AMFD/config/KAIST/Teacher_Fasterrcnn_r50_fpn_1x_kaist_thermal_first.py',
+    # teacher_pretrained = 'D:/Senior/lab/mmdetection/projects/BAANet/checkpoints/best_Glare_normal_all_iter_2500.pth',
     distill_cfg = [ 
                     dict(methods=[dict(type='MEALoss',
                                        name='loss_mea_fpn_3',
@@ -232,7 +230,7 @@ model = dict(
 )
 
 # dataset settings
-dataset_type = 'LLVIPDataset'
+dataset_type = 'KAISTDataset'
 data_root = ''
 
 backend_args = None
@@ -243,7 +241,7 @@ image_size = [(1333, 480), (1333, 512), (1333, 544), (1333, 576), (1333, 608),
               (1333, 640), (1333, 672), (1333, 704), (1333, 736), (1333, 768),
               (1333, 800)]
 train_pipeline = [
-    dict(type='LoadBGR3TFromLLVIP', backend_args=None),
+    dict(type='LoadBGR3TFromKAIST', backend_args=None),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='RandomChoiceResize',
@@ -255,7 +253,7 @@ train_pipeline = [
     dict(type='PackDetInputs')
 ]
 test_pipeline = [
-    dict(type='LoadBGR3TFromLLVIP', backend_args=None),
+    dict(type='LoadBGR3TFromKAIST', backend_args=None),
     dict(type='Resize', scale=(1333, 800), keep_ratio=True),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
@@ -264,34 +262,30 @@ test_pipeline = [
                    'scale_factor'))
 ]
 train_dataloader = dict(
-    batch_size=2,
+    batch_size=1,
     num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     batch_sampler=dict(type='AspectRatioBatchSampler'),
     dataset=dict(
-        type='LLVIPDataset',
-        data_prefix=dict(
-            img_path=
-            '/home/featurize/data/LLVIP'
-        ),
+        type='KAISTDataset',
         ann_file=
-        '/home/featurize/data/LLVIP/train_annotations.json',
+        'D:/Senior/lab/KAIST/kaist_test_anno/anno/train_anno/KAIST_train_RGB_annotation.json',
         pipeline=[
-            dict(type='LoadBGR3TFromLLVIP', backend_args=None),
+            dict(type='LoadBGR3TFromKAIST', backend_args=None),
             dict(type='LoadAnnotations', with_bbox=True),
-            dict(
-                type='RandomMask',
-                prob=0,
-                mask_type='black',
-                mask_modality='RGB'),
+            # dict(
+            #     type='RandomMask',
+            #     prob=0.5,
+            #     mask_type='black',
+            #     mask_modality='RGB'),
             dict(type='Resize', scale=(1333, 800), keep_ratio=True),
             dict(type='RandomFlip', prob=0.5),
             dict(
                 type='PackDetInputs',
                 meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
                            'scale_factor', 'flip', 'flip_direction',
-                           'RGB_mask'
+                        #    'RGB_mask'
                            ))
         ],
         backend_args=None))
@@ -303,16 +297,16 @@ val_dataloader = dict(
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
-        type='LLVIPDataset',
+        type='KAISTDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/LLVIP'
+            'D:/Senior/lab/KAIST/kaist_test_anno/kaist_test/kaist_test_lwir'
         ),
         ann_file=
-        '/home/featurize/data/LLVIP/test_annotations.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         test_mode=True,
         pipeline=[
-            dict(type='LoadBGR3TFromLLVIP', backend_args=None),
+            dict(type='LoadBGR3TFromKAIST', backend_args=None),
             dict(type='Resize', scale=(1333, 800), keep_ratio=True),
             dict(type='LoadAnnotations', with_bbox=True),
             dict(
@@ -325,9 +319,9 @@ test_dataloader = val_dataloader
 
 val_evaluator = [
     dict(
-        type='CocoMetric',
+        type='GlareKAISTMissrateMetric',
         ann_file=
-        '/home/featurize/data/LLVIP/test_annotations.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         metric='bbox',
         format_only=False,
         backend_args=None,
@@ -335,9 +329,9 @@ val_evaluator = [
 ]
 test_evaluator = [
     dict(
-        type='CocoMetric',
+        type='GlareKAISTMissrateMetric',
         ann_file=
-        '/home/featurize/data/LLVIP/test_annotations.json',
+        'D:/Senior/lab/KAIST/KAIST_annotation_with_complex_light.json',
         metric='bbox',
         format_only=False,
         backend_args=None,
@@ -352,8 +346,8 @@ default_hooks = dict(
     checkpoint=dict(
         type='CheckpointHook',
         by_epoch=False,
-        save_best=['coco/bbox_mAP'],
-        rule='greater'),
+        save_best=['Glare/normal_all'],
+        rule='less'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     visualization=dict(type='DetVisualizationHook'))
 env_cfg = dict(
@@ -391,7 +385,7 @@ param_scheduler = [
 ]
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='AdamW', lr=0.000125, weight_decay=0.0001))
+    optimizer=dict(type='AdamW', lr=0.0001, weight_decay=0.0001))
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 launcher = 'none'
 seed = 0

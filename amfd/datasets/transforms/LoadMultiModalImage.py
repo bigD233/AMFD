@@ -690,7 +690,7 @@ class Normalize_Pad(BaseTransform):
 
 
 @TRANSFORMS.register_module()
-class LoadBGR3TFromSMCT(BaseTransform):
+class LoadBGR3TFromSMOD(BaseTransform):
     """Load an image from file.
 
     Required Keys:

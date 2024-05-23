@@ -500,7 +500,7 @@ class KAISTPedEval(COCOeval):
         return _summarize(iouThr=.5, maxDets=1000)
 
 @METRICS.register_module()
-class SMCTMissrateMetric(BaseMetric):
+class SMODMissrateMetric(BaseMetric):
     """Missrate evaluation metric.
 
     Evaluate AR, AP, and mAP for detection tasks including proposal/box

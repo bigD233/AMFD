@@ -2,7 +2,7 @@ plugin = True
 plugin_dir = 'projects/BAANet/baanet/'
 
 __code_version__='double_faster_rcnn_thermal_rpn'
-work_dir = '/home/featurize/work/mmdetection/work_dirs_smct/SMCT_' + __code_version__
+work_dir = '/home/featurize/work/mmdetection/work_dirs_smod/SMOD_' + __code_version__
 
 custom_imports = dict(
     imports=['projects.BAANet.baanet'], allow_failed_imports=False)
@@ -130,14 +130,14 @@ model = dict(
             score_thr=0.05,
             nms=dict(type='nms', iou_threshold=0.5),
             max_per_img=100)))
-dataset_type = 'SMCTDataset'
+dataset_type = 'SMODDataset'
 data_root = ''
 backend_args = None
 image_size = [(1333, 480), (1333, 512), (1333, 544), (1333, 576), (1333, 608),
               (1333, 640), (1333, 672), (1333, 704), (1333, 736), (1333, 768),
               (1333, 800)]
 train_pipeline = [
-    dict(type='LoadBGR3TFromSMCT', backend_args=None),
+    dict(type='LoadBGR3TFromSMOD', backend_args=None),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='RandomMask', prob=0.5, mask_type='black', mask_modality='RGB'),
     dict(type='Resize', scale=(1333, 800), keep_ratio=True),
@@ -148,7 +148,7 @@ train_pipeline = [
                    'scale_factor', 'flip', 'flip_direction', 'RGB_mask'))
 ]
 test_pipeline = [
-    dict(type='LoadBGR3TFromSMCT', backend_args=None),
+    dict(type='LoadBGR3TFromSMOD', backend_args=None),
     dict(type='Resize', scale=(1333, 800), keep_ratio=True),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
@@ -163,15 +163,15 @@ train_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=True),
     batch_sampler=dict(type='AspectRatioBatchSampler'),
     dataset=dict(
-        type='SMCTDataset',
+        type='SMODDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/SMCT'
+            '/home/featurize/data/SMOD'
         ),
         ann_file=
-        '/home/featurize/data/SMCT/new_train_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_train_annotations_rgb.json',
         pipeline=[
-            dict(type='LoadBGR3TFromSMCT', backend_args=None),
+            dict(type='LoadBGR3TFromSMOD', backend_args=None),
             dict(type='LoadAnnotations', with_bbox=True),
             dict(
                 type='RandomMask',
@@ -194,16 +194,16 @@ val_dataloader = dict(
     drop_last=False,
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
-        type='SMCTDataset',
+        type='SMODDataset',
         data_prefix=dict(
             img_path=
-            '/home/featurize/data/SMCT'
+            '/home/featurize/data/SMOD'
         ),
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         test_mode=True,
         pipeline=[
-            dict(type='LoadBGR3TFromSMCT', backend_args=None),
+            dict(type='LoadBGR3TFromSMOD', backend_args=None),
             dict(type='Resize', scale=(1333, 800), keep_ratio=True),
             dict(type='LoadAnnotations', with_bbox=True),
             dict(
@@ -217,7 +217,7 @@ val_evaluator = [
     dict(
         type='CocoMetric',
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         metric='bbox',
         format_only=False,
         backend_args=None,
@@ -227,7 +227,7 @@ test_evaluator = [
     dict(
         type='CocoMetric',
         ann_file=
-        '/home/featurize/data/SMCT/new_test_annotations_rgb.json',
+        '/home/featurize/data/SMOD/new_test_annotations_rgb.json',
         metric='bbox',
         format_only=False,
         backend_args=None,

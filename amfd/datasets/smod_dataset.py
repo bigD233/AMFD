@@ -11,7 +11,7 @@ from mmdet.datasets.base_det_dataset import BaseDetDataset
 
 
 @DATASETS.register_module()
-class SMCTDataset(BaseDetDataset):
+class SMODDataset(BaseDetDataset):
     """Dataset for COCO."""
 
     METAINFO = {
