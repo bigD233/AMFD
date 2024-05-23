@@ -9,15 +9,7 @@
 
 This is the official repository for our paper "AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection" ([arxiv paper link](https://export.arxiv.org/abs/2405.12944)).
 
-## citation
-If you find our AMFD useful, please cite our paper:
-```
-  @article{amfd,
-  	title={AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection},
-  	author={Chen, Zizhao and Qian, Yeqiang and Yang, xiaoxiao and Wang, Chunxiang and Yang, Ming},
-  	journal={arXiv preprint arXiv:2405.12944},
-  	year={2024}}
-```
+
 ## Preparation
 
 1. We use the [MMDetection](https://github.com/open-mmlab/mmdetection) toolbox to detect pedestrians on the KAIST, LLVIP and SMOD dataset. Please follow the [MMDetection](https://github.com/open-mmlab/mmdetection) documents to install environments.
@@ -42,7 +34,7 @@ If you find our AMFD useful, please cite our paper:
 All Datasets and Models we provided are upload in [google cloud](https://drive.google.com/drive/folders/1iAjAVifSSuizjEDFao8Ba3heZFsBNoae?usp=sharing).
 ### Datasets
 - KAIST: KAIST dataset has been updated by several previous works. We upload this dataset and improved annotations for your convenience in using our code. [cloud link](https://drive.google.com/drive/folders/1lJLGV91CH43PRYx8KaVy5OngryTwo3ee?usp=sharing)
-- LLVIP: The origin data you can download in its from its official [repository](https://github.com/bupt-ai-cz/LLVIP). The coco-format annotation you can download from [cloud link](https://drive.google.com/drive/folders/1lJLGV91CH43PRYx8KaVy5OngryTwo3ee?usp=sharing).
+- LLVIP: The origin data you can download in its from its official [repository](https://github.com/bupt-ai-cz/LLVIP). The coco-format annotation you can download from [cloud link](https://drive.google.com/drive/folders/1A_6o6OQuMOZpzp6S8Zzm0jbmn5bh7x6E?usp=sharing).
 - SMOD: A new multispectral object detection dataset propsed by us. You can download from [Kaggle](https://www.kaggle.com/datasets/zizhaochen6/sjtu-multispectral-object-detection-smod-dataset)
 
 ## Models 
@@ -53,7 +45,7 @@ single_fasterrcnn_7_23.pth  ---> Trained by Student_Fasterrcnn_r18_fpn_1x_kaist_
 ```
 
 
-## Inferecne
+## Inference
 We take the example of inference on the KAIST dataset:
 1. Download checkpoints you need for test. You can refer to [Datasets and Models](#datasets-and-models). Here we need the checkpoint "resnet18-5c106cde.pth" and "single_fasterrcnn_7_23.pth" to initialize the weights.
 
@@ -79,6 +71,16 @@ If you want to train a teacher network by yourself:
 	```
 	python ./tools/train.py ./projects/AMFD/config/KAIST/Student_Fasterrcnn_r18_fpn_1x_kaist_amfd.py
 	```
+
+## citation
+If you find our AMFD useful, please cite our paper:
+```
+  @article{amfd,
+  	title={AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection},
+  	author={Chen, Zizhao and Qian, Yeqiang and Yang, xiaoxiao and Wang, Chunxiang and Yang, Ming},
+  	journal={arXiv preprint arXiv:2405.12944},
+  	year={2024}}
+```
 
 
 ## Contact
