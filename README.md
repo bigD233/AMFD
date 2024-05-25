@@ -72,7 +72,7 @@ If you want to train a teacher network by yourself:
 	python ./tools/train.py ./projects/AMFD/config/KAIST/Student_Fasterrcnn_r18_fpn_1x_kaist_amfd.py
 	```
 
-## citation
+## Citation
 If you find our AMFD useful, please cite our paper:
 ```
   @article{amfd,
