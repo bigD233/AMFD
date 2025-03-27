@@ -9,6 +9,8 @@
 
 This is the official repository for our paper "AMFD: Distillation via Adaptive Multimodal Fusion for Multispectral Pedestrian Detection" ([arxiv paper link](https://export.arxiv.org/abs/2405.12944)).
 
+## Updates
+- [2025.02] **Our paper has been accepted by the IEEE Transactions on Multimedia (TMM)!**
 ## Attention
 The paper mentions that the data for the training and test sets of the SMOD Dataset are **incorrect**, and that all of our experiments are based on the existing versions on [Kaggle](https://www.kaggle.com/datasets/zizhaochen6/sjtu-multispectral-object-detection-smod-dataset). The dataset we used has 2676 samples in the test set and 6000 samples in the training set. we are sorry for the mistake.
 
